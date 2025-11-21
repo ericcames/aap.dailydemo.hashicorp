@@ -24,3 +24,5 @@ collections:
     version: "1.18.0"
   - name: community.hashi_vault
     version: "7.1.0"
+  - name: community.crypto
+    version: "3.0.5"
