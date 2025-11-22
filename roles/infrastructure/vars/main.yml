@@ -1,1 +1,9 @@
+# AWS information
+# this section is only used by deploy-hosts.yml for AWS deployment. Other deployments don't need it.
+aws_profile: default                        # aws profile name from ~/.aws/credentials
+aws_ami: ami-0a5229853eaaa29c1              # Red Hat Enterprise Linux version 10 (HVM), EBS General Purpose (SSD) Volume Type
+aws_type: m7a.xlarge                        # 4 vCPUs, 16 GiB RAM 4g EPYC
+aws_domain: "{{ domain_name }}"
 aws_region: us-west-1
+ec2_priv_keyfile_name: "{{ ssh_key_name }}"
+ec2_priv_keyfile: "{{ playbook_dir }}/{{ ec2_priv_keyfile_name }}"
