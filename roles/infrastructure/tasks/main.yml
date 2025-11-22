@@ -86,6 +86,7 @@
 - name: Check to see if a keypair named "rh_hashi_keypair" exists in AWS
   register: keypair_info
   amazon.aws.ec2_key_info:
+    region: "{{ aws_region }}"
     names:
       - rh_hashi_keypair
 
