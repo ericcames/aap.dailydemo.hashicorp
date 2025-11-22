@@ -7,3 +7,4 @@ aws_domain: "{{ domain_name }}"
 aws_region: us-west-1
 ec2_priv_keyfile_name: "{{ ssh_key_name }}"
 ec2_priv_keyfile: "{{ playbook_dir }}/{{ ec2_priv_keyfile_name }}"
+email_address: eames@redhat.com
