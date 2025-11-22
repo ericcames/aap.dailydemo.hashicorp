@@ -101,6 +101,7 @@
 
     - name: Create a new EC2 key pair, called rh_hashi_keypair with the contents of the file ec2_priv_keyfile
       amazon.aws.ec2_key:
+        region: "{{ aws_region }}"
         name: rh_hashi_keypair
         key_material: "{{ lookup( 'file', ec2_priv_keyfile ~ '.pub' ) }}"
         state: present
@@ -117,6 +118,7 @@
       # no_log: true
       register: aws_ec2_key_pair
       amazon.aws.ec2_key:
+        region: "{{ aws_region }}"
         name: rh_hashi_keypair
         key_material: "{{ lookup( 'file', ec2_priv_keyfile ~ '.pub' ) }}"
 
