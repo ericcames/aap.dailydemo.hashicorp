@@ -225,12 +225,12 @@
           ansible.builtin.debug:
             msg: "Using zone named {{ domain_name }} with zone ID {{ r53_zone_id }}."
 
-    - name: Get my main.tf
+    - name: Get my terraform.tfstate file
       amazon.aws.s3_object:
         region: "{{ aws_region }}"
         bucket: "{{ my_s3_bucket_name }}"
-        object: main.tf
-        dest: "{{ playbook_dir }}/main.tf"
+        object: terraform.tfstate
+        dest: "{{ playbook_dir }}/terraform.tfstate"
         mode: get
 
     - name: Destroy hosts in AWS
