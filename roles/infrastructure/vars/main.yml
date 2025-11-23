@@ -12,6 +12,7 @@ aws_ami: ami-0a5229853eaaa29c1              # Red Hat Enterprise Linux version 1
 aws_type: m7i.xlarge                        # 4 vCPUs, 16 GiB RAM 4g EPYC
 aws_domain: "{{ domain_name }}"
 aws_region: us-west-1
+my_s3_bucket_name: hashicorp_daily_demo
 # ec2_priv_keyfile_name: "{{ ssh_key_name }}"
 # ec2_priv_keyfile: "{{ playbook_dir }}/{{ ec2_priv_keyfile_name }}"
 
