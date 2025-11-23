@@ -6,5 +6,13 @@
   tasks:
 
     - name: Include the infrastructure role
+      tags:
+        - create
+      ansible.builtin.include_role:
+        name: infrastructure
+
+    - name: Include the infrastructure role
+      tags:
+        - remove
       ansible.builtin.include_role:
         name: infrastructure
