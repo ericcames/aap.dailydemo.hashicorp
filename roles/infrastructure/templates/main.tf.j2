@@ -117,7 +117,7 @@ resource "aws_instance" "web" {
   instance_type          = "{{ aws_type }}"
   subnet_id              = aws_subnet.public_b.id
   vpc_security_group_ids = [aws_security_group.web_sg.id]
-  key_name               = "rh_hashi_keypair"
+  key_name               = "{{ ssh_key_name }}"
   root_block_device {
     volume_size = 100
     volume_type = "gp2"
