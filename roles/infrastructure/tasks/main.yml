@@ -108,6 +108,14 @@
         region: "{{ aws_region }}"
         key_material: "{{ lookup('file', '{{ playbook_dir }}/id_rsa.pub') }}"
 
+    - name: Get my main.tf
+      amazon.aws.s3_object:
+        region: "{{ aws_region }}"
+        bucket: "{{ my_s3_bucket_name }}"
+        object: /main.tf
+        dest: "{{ playbook_dir }}/main.tf"
+        mode: get
+
     - name: Deploy hosts to AWS
       register: tf_hosts_result
       community.general.terraform:
