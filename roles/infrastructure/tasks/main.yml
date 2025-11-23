@@ -43,7 +43,6 @@
               ansible.builtin.set_fact:
                 r53_zone_id: "{{ item.Id | replace('/hostedzone/', '') }}"
 
-
             - name: Debug r53_zone_id, default false
               when: debug | default(false)
               ansible.builtin.debug:
@@ -83,54 +82,17 @@
         force: true
         mode: '0644'
 
-    - name: Check to see if the file exists {{ ec2_priv_keyfile }}
-      register: ec2_keypair
-      ansible.builtin.stat:
-        path: "{{ ec2_priv_keyfile }}"
+    - name: Grab my public ssh key from remote url
+      ansible.builtin.get_url:
+        url: '{{ my_remote_ssh_pub_key }}'
+        dest: "{{ playbook_dir }}/id_rsa.pub"
+        mode: '0644'
 
-    - name: Debug ec2_keypair when debug is defined, default false
-      when: debug | default(false)
-      ansible.builtin.debug:
-        var: ec2_keypair
-
-    - name: Check to see if a keypair named "rh_hashi_keypair" exists in AWS
-      register: keypair_info
-      amazon.aws.ec2_key_info:
+    - name: Create key using key_material obtained using 'file' lookup plugin
+      amazon.aws.ec2_key:
+        name: "{{ ssh_key_name }}"
         region: "{{ aws_region }}"
-        names:
-          - rh_hashi_keypair
-
-    - name: Debug keypair_info when debug is defined, default false
-      when: debug | default(false)
-      ansible.builtin.debug:
-        var: keypair_info
-
-    - name: Use existing keypair file, if it exists, and there is no AWS keypair called rh_hashi_keypair
-      when: ec2_keypair.stat.exists and keypair_info.keypairs | length == 0
-      block:
-
-        - name: Create a new EC2 key pair, called rh_hashi_keypair with the contents of the file ec2_priv_keyfile
-          amazon.aws.ec2_key:
-            region: "{{ aws_region }}"
-            name: rh_hashi_keypair
-            key_material: "{{ lookup( 'file', ec2_priv_keyfile ~ '.pub' ) }}"
-            state: present
-
-    - name: Create a new EC2 keypair, if one doesn't exist
-      when: not ec2_keypair.stat.exists and keypair_info.keypairs | length == 0
-      block:
-
-        - name: Generate an OpenSSH keypair with the default values (4096 bits, rsa)
-          community.crypto.openssh_keypair:
-            path: "{{ ec2_priv_keyfile }}"
-
-        - name: Create a new EC2 key pair, returns generated private key
-          # no_log: true
-          register: aws_ec2_key_pair
-          amazon.aws.ec2_key:
-            region: "{{ aws_region }}"
-            name: rh_hashi_keypair
-            key_material: "{{ lookup( 'file', ec2_priv_keyfile ~ '.pub' ) }}"
+        key_material: "{{ lookup('file', '{{ playbook_dir }}/id_rsa.pub') }}"
 
     - name: Deploy hosts to AWS
       register: tf_hosts_result
@@ -251,24 +213,6 @@
       when: debug | default(false)
       ansible.builtin.debug:
         var: tf_hosts_result
-
-    - name: Check to see if a keypair named "rh_hashi_keypair" exists in AWS
-      register: keypair_info
-      amazon.aws.ec2_key_info:
-        region: "{{ aws_region }}"
-        names:
-          - rh_hashi_keypair
-
-    - name: Remove AWS keypair called rh_hashi_keypair
-      when: keypair_info.keypairs | length >= 0
-      block:
-
-        - name: Remove EC2 key pair, called rh_hashi_keypair with the contents of the file ec2_priv_keyfile
-          amazon.aws.ec2_key:
-            region: "{{ aws_region }}"
-            name: rh_hashi_keypair
-            # key_material: "{{ lookup( 'file', ec2_priv_keyfile ~ '.pub' ) }}"
-            state: absent
 
     - name: Force inventory refresh
       ansible.builtin.meta: refresh_inventory

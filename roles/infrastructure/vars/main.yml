@@ -1,6 +1,6 @@
 # Domain name for environment - define this if you don't want the deployer to use the first domain it finds in AWS Route53
 # domain_name: CHANGEME.DOMAIN.NAME
-ssh_key_name: hashi_ec2_key
+ssh_key_name: my_public_ssh_key
 email_address: eames@redhat.com # the email address used to send emails from the demo
 # redhat_subscription_username: user@example.com
 # redhat_subscription_password: CHANGEME
@@ -12,8 +12,8 @@ aws_ami: ami-0a5229853eaaa29c1              # Red Hat Enterprise Linux version 1
 aws_type: m7i.xlarge                        # 4 vCPUs, 16 GiB RAM 4g EPYC
 aws_domain: "{{ domain_name }}"
 aws_region: us-west-1
-ec2_priv_keyfile_name: "{{ ssh_key_name }}"
-ec2_priv_keyfile: "{{ playbook_dir }}/{{ ec2_priv_keyfile_name }}"
+# ec2_priv_keyfile_name: "{{ ssh_key_name }}"
+# ec2_priv_keyfile: "{{ playbook_dir }}/{{ ec2_priv_keyfile_name }}"
 
 # Override these role variables to attach a RHEL subscription to the Vault RHEL server
 # vault_provision_redhat_subscription: true
