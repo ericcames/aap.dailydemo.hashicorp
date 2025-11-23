@@ -75,12 +75,26 @@
           ansible.builtin.debug:
             msg: "Using zone named {{ domain_name }} with zone ID {{ r53_zone_id }}."
 
-    - name: Template main.tf.j2 to a temporary file name in the current directory
-      ansible.builtin.template:
-        src: templates/main.tf.j2
-        dest: "{{ playbook_dir }}/main.tf"
-        force: true
-        mode: '0644'
+    - name: Create an S3 bucket for out main.tf
+      amazon.aws.s3_bucket:
+        region: "{{ aws_region }}"
+        name: mys3bucket
+        state: present
+
+    - name: Template main.tf.j2 to main.tf in my s3 bucket
+      amazon.aws.s3_object:
+        region: "{{ aws_region }}"
+        bucket: mys3bucket
+        object: /main.tf
+        content: "{{ lookup('template', 'templates/main.tf.j2') }}"
+        mode: put
+
+    # - name: Template main.tf.j2 to a temporary file name in the current directory
+    #   ansible.builtin.template:
+    #     src: templates/main.tf.j2
+    #     dest: "{{ playbook_dir }}/main.tf"
+    #     force: true
+    #     mode: '0644'
 
     - name: Grab my public ssh key from remote url
       ansible.builtin.get_url:
@@ -202,6 +216,14 @@
           ansible.builtin.debug:
             msg: "Using zone named {{ domain_name }} with zone ID {{ r53_zone_id }}."
 
+    - name: Get my main.tf
+      amazon.aws.s3_object:
+        region: "{{ aws_region }}"
+        bucket: mys3bucket
+        object: /main.tf
+        dest: "{{ playbook_dir }}/main.tf"
+        mode: get
+
     - name: Destroy hosts in AWS
       register: tf_hosts_result
       community.general.terraform:
@@ -213,6 +235,12 @@
       when: debug | default(false)
       ansible.builtin.debug:
         var: tf_hosts_result
+
+    - name: Remove my S3 bucket for out main.tf
+      amazon.aws.s3_bucket:
+        region: "{{ aws_region }}"
+        name: mys3bucket
+        state: absent
 
     - name: Force inventory refresh
       ansible.builtin.meta: refresh_inventory
