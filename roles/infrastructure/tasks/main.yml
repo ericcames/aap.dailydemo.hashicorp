@@ -115,6 +115,10 @@
         project_path: "{{ playbook_dir }}"
         force_init: true
         state: present
+        backend_config:
+          region: "{{ aws_region }}"
+          bucket: "{{ my_s3_bucket_name }}"
+          key: "random.tfstate"
 
     - name: Debug terraform apply
       when: debug | default(false)
