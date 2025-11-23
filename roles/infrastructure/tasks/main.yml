@@ -116,6 +116,10 @@
         force_init: true
         state: present
 
+    - name: Show me the files
+      ansible.builtin.find:
+        paths: /
+
     - name: Capture the terraform.tfstate file so that we can burn things down
       amazon.aws.s3_object:
         region: "{{ aws_region }}"
