@@ -119,6 +119,7 @@
     - name: Show me the files
       ansible.builtin.find:
         paths: /
+        patterns: "*.*"
 
     - name: Capture the terraform.tfstate file so that we can burn things down
       amazon.aws.s3_object:
