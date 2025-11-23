@@ -115,10 +115,14 @@
         project_path: "{{ playbook_dir }}"
         force_init: true
         state: present
-        backend_config:
-          region: "{{ aws_region }}"
-          bucket: "{{ my_s3_bucket_name }}"
-          key: "random.tfstate"
+
+    - name: Capture the terraform.tfstate file so that we can burn things down
+      amazon.aws.s3_object:
+        region: "{{ aws_region }}"
+        bucket: "{{ my_s3_bucket_name }}"
+        object: /terraform.tfstate
+        src: ./terraform.tfstate
+        mode: put
 
     - name: Debug terraform apply
       when: debug | default(false)
