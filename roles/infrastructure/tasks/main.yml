@@ -119,15 +119,15 @@
 
     - name: Create a zip archive of a directory
       community.general.archive:
-        path: "{{ playbook_dir }}/.terraform/providers" # The directory you want to zip
-        dest: "{{ playbook_dir }}/providers.zip" # The destination path and filename for the zip file
+        path: "{{ playbook_dir }}/.terraform" # The directory you want to zip
+        dest: "{{ playbook_dir }}/terraform.zip" # The destination path and filename for the zip file
         format: zip
 
     - name: PUT my archived /.terraform/providers/ into s3
       amazon.aws.s3_object:
         bucket: "{{ my_s3_bucket_name }}"
-        object: development/providers.zip
-        src: "{{ playbook_dir }}/providers.zip"
+        object: development/terraform.zip
+        src: "{{ playbook_dir }}/terraform.zip"
         mode: put
 
     - name: Debug host names
@@ -240,13 +240,13 @@
 
     - name: Create a directory if it does not exist
       ansible.builtin.file:
-        path: "{{ playbook_dir }}/.terraform/providers"
+        path: "{{ playbook_dir }}/.terraform"
         state: directory
         mode: '0700'
 
     - name: Extract providers
       ansible.builtin.unarchive:
-        src: "{{ playbook_dir }}/providers.zip"
+        src: "{{ playbook_dir }}/terraform.zip"
         dest: "{{ playbook_dir }}/.terraform"
 
     - name: Destroy hosts in AWS
@@ -255,8 +255,8 @@
         project_path: "{{ playbook_dir }}"
         force_init: true
         state: absent
-        plugin_paths:
-          - "{{ playbook_dir }}/.terraform/providers/registry.terraform.io/hashicorp/aws"
+        # plugin_paths:
+        #   - "{{ playbook_dir }}/.terraform/providers/registry.terraform.io/hashicorp/aws"
 
     - name: Debug terraform apply
       when: debug | default(false)
