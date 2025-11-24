@@ -27,7 +27,7 @@ Day 1 - Infrastructure as code (IAC) a repeatable build process for the Palo Alt
 =========
 
 [Daily Demo HashiCorp Create/Remove](https://github.com/ericcames/aap.dailydemo.hashicorp/blob/main/playbooks/main.yml "Daily Demo HashiCorp Create/Remove")<br>
-![alt text](https://github.com/ericcames/aap.dailydemo.Panos/blob/main/images/palomain.png "Main Playbook")<br>
+![alt text](https://github.com/ericcames/aap.dailydemo.hashicorp/blob/main/images/hashimain.png "Main Playbook")<br>
 
 Tag used:
 ```
