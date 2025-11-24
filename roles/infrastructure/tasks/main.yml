@@ -217,7 +217,7 @@
       amazon.aws.s3_object:
         bucket: "{{ my_s3_bucket_name }}"
         object: /development/terraform.tfstate
-        dest: "{{ playbook_dir }}terraform.tfstate"
+        dest: "{{ playbook_dir }}/terraform.tfstate"
         mode: get
 
     - name: Destroy hosts in AWS
