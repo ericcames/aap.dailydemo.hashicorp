@@ -255,6 +255,8 @@
         project_path: "{{ playbook_dir }}"
         force_init: true
         state: absent
+        plugin_paths:
+          - "{{ playbook_dir }}/.terraform"
 
     - name: Debug terraform apply
       when: debug | default(false)

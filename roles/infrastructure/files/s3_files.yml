@@ -1,6 +1,6 @@
 ---
 s3_files:
   - name: providers.zip
-    object: /development/providers.zip
+    object: development/providers.zip
   - name: terraform.tfstate
-    object: /development/terraform.tfstate
+    object: development/terraform.tfstate
