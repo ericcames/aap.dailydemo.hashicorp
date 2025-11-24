@@ -4,6 +4,11 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 5.0" # Or your preferred version
     }
+  backend "s3" {
+    bucket = "{{ my_s3_bucket_name }}"
+    key    = "terraform.tfstate"
+    region = "{{ aws_region }}"
+    }
   }
 }
 
