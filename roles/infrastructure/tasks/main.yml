@@ -75,11 +75,11 @@
           ansible.builtin.debug:
             msg: "Using zone named {{ domain_name }} with zone ID {{ r53_zone_id }}."
 
-    # - name: Create an S3 bucket for out main.tf
-    #   amazon.aws.s3_bucket:
-    #     region: "{{ aws_region }}"
-    #     name: "{{ my_s3_bucket_name }}"
-    #     state: present
+    - name: Create an S3 bucket for out main.tf
+      amazon.aws.s3_bucket:
+        region: "{{ aws_region }}"
+        name: "{{ my_s3_bucket_name }}"
+        state: present
 
     # - name: Template main.tf.j2 to main.tf in my s3 bucket
     #   amazon.aws.s3_object:
@@ -116,9 +116,17 @@
         force_init: true
         state: present
 
-    # - name: Include the files needed to destroy the infrastructure
-    #   ansible.builtin.include_vars:
-    #     file: files/tffiles.yml
+    - name: Include the files needed to destroy the infrastructure
+      ansible.builtin.include_vars:
+        file: files/tf_files.yml
+
+    - name: Templates we care about
+      loop: "{{ files }}"
+      ansible.builtin.template:
+        src: templates/{{ item['template'] }}
+        dest: "{{ playbook_dir }}/{{ item['name'] }}"
+        force: true
+        mode: '0644'
 
     # - name: Capture the terraform.tfstate file so that we can burn things down
     #   loop: "{{ files }}"
@@ -255,12 +263,12 @@
       ansible.builtin.debug:
         var: tf_hosts_result
 
-    # - name: Remove my S3 bucket for out main.tf
-    #   amazon.aws.s3_bucket:
-    #     region: "{{ aws_region }}"
-    #     name: "{{ my_s3_bucket_name }}"
-    #     force: true
-    #     state: absent
+    - name: Remove my S3 bucket for out main.tf
+      amazon.aws.s3_bucket:
+        region: "{{ aws_region }}"
+        name: "{{ my_s3_bucket_name }}"
+        force: true
+        state: absent
 
     - name: Force inventory refresh
       ansible.builtin.meta: refresh_inventory
