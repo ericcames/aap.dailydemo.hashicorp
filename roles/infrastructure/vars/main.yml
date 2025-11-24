@@ -13,6 +13,9 @@ aws_type: m7i.xlarge                        # 4 vCPUs, 16 GiB RAM 4g EPYC
 aws_domain: "{{ domain_name }}"
 aws_region: us-west-1
 my_s3_bucket_name: hashicorp-daily-demo-451
+tf_config_files:
+  - main.tf
+  - backend.tf
 # ec2_priv_keyfile_name: "{{ ssh_key_name }}"
 # ec2_priv_keyfile: "{{ playbook_dir }}/{{ ec2_priv_keyfile_name }}"
 

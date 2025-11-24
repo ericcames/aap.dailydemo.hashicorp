@@ -105,6 +105,14 @@
         force: true
         mode: '0644'
 
+    - name: PUT Terraform config files into s3
+      loop: "{{ tf_config_files }}"
+      amazon.aws.s3_object:
+        bucket: "{{ my_s3_bucket_name }}"
+        object: development/{{ item }}
+        src: "{{ playbook_dir }}/{{ item }}"
+        mode: put
+
     - name: Deploy hosts to AWS
       register: tf_hosts_result
       community.general.terraform:
