@@ -1,7 +1,15 @@
+resource "aws_s3_bucket" "terraform_state" {
+  bucket = "{{ my_s3_bucket_name }}"
+
+  lifecycle {
+    prevent_destroy = false
+  }
+}
+
 terraform {
   backend "s3" {
     bucket         = "{{ my_s3_bucket_name }}"
-    key            = "terraform.tfstate"
+    key            = "development/terraform.tfstate"
     region         = "{{ aws_region }}"
     use_lockfile   = true  # Optional: Enables state locking
   }
