@@ -270,12 +270,12 @@
       ansible.builtin.debug:
         var: tf_hosts_result
 
-    # - name: Remove my S3 bucket for out main.tf
-    #   amazon.aws.s3_bucket:
-    #     region: "{{ aws_region }}"
-    #     name: "{{ my_s3_bucket_name }}"
-    #     force: true
-    #     state: absent
+    - name: Remove my S3 bucket for out main.tf
+      amazon.aws.s3_bucket:
+        region: "{{ aws_region }}"
+        name: "{{ my_s3_bucket_name }}"
+        force: true
+        state: absent
 
     - name: Force inventory refresh
       ansible.builtin.meta: refresh_inventory
