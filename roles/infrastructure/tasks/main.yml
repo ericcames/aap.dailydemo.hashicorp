@@ -119,15 +119,15 @@
 
     - name: Create a zip archive of a directory
       community.general.archive:
-        path: /.terraform # The directory you want to zip
-        dest: "{{ playbook_dir }}/terraform_provider.zip" # The destination path and filename for the zip file
+        path: "{{ playbook_dir }}/.terraform/providers" # The directory you want to zip
+        dest: "{{ playbook_dir }}/providers.zip" # The destination path and filename for the zip file
         format: zip
 
     - name: PUT my archived /.terraform/providers/ into s3
       amazon.aws.s3_object:
         bucket: "{{ my_s3_bucket_name }}"
-        object: development/terraform_provider.zip
-        src: "{{ playbook_dir }}/terraform_provider.zip"
+        object: development/providers.zip
+        src: "{{ playbook_dir }}/providers.zip"
         mode: put
 
     - name: Debug host names
