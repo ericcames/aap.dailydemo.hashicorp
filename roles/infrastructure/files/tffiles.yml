@@ -1,6 +1,6 @@
 ---
 files:
-  - src: ./.terraform/providers/
+  - src: ./.terraform/providers
     object: /.terraform/providers/
   - src: ./terraform.tfstate
     object: /terraform.tfstate
