@@ -23,7 +23,7 @@ my_remote_ssh_pub_key: >-
   https://raw.githubusercontent.com/ericcames/sourcefiles/refs/heads/main/id_rsa.pub
 ```
 
-Day 1 - Infrastructure as code (IAC) a repeatable build process for the Palo Alto
+Day 1 - Infrastructure as code (IAC) a repeatable build process for the HashiCorp Terraform and Vault servers.
 =========
 
 [Daily Demo HashiCorp Create/Remove](https://github.com/ericcames/aap.dailydemo.hashicorp/blob/main/playbooks/main.yml "Daily Demo HashiCorp Create/Remove")<br>
