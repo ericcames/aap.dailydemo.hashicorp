@@ -81,14 +81,6 @@
         name: "{{ my_s3_bucket_name }}"
         state: present
 
-    # - name: Template main.tf.j2 to main.tf in my s3 bucket
-    #   amazon.aws.s3_object:
-    #     region: "{{ aws_region }}"
-    #     bucket: "{{ my_s3_bucket_name }}"
-    #     object: /main.tf
-    #     content: "{{ lookup('template', 'templates/main.tf.j2') }}"
-    #     mode: put
-
     - name: Grab my public ssh key from remote url
       ansible.builtin.get_url:
         url: '{{ my_remote_ssh_pub_key }}'
@@ -100,14 +92,6 @@
         name: "{{ ssh_key_name }}"
         region: "{{ aws_region }}"
         key_material: "{{ lookup('file', '{{ playbook_dir }}/id_rsa.pub') }}"
-
-    # - name: Get my main.tf
-    #   amazon.aws.s3_object:
-    #     region: "{{ aws_region }}"
-    #     bucket: "{{ my_s3_bucket_name }}"
-    #     object: main.tf
-    #     dest: "{{ playbook_dir }}/main.tf"
-    #     mode: get
 
     - name: Include the files needed to destroy the infrastructure
       ansible.builtin.include_vars:
@@ -127,15 +111,6 @@
         project_path: "{{ playbook_dir }}"
         force_init: true
         state: present
-
-    # - name: Capture the terraform.tfstate file so that we can burn things down
-    #   loop: "{{ files }}"
-    #   amazon.aws.s3_object:
-    #     region: "{{ aws_region }}"
-    #     bucket: "{{ my_s3_bucket_name }}"
-    #     object: "{{ item['object'] }}"
-    #     src: "{{ item['src'] }}"
-    #     mode: put
 
     - name: Debug terraform apply
       when: debug | default(false)
@@ -238,18 +213,12 @@
           ansible.builtin.debug:
             msg: "Using zone named {{ domain_name }} with zone ID {{ r53_zone_id }}."
 
-    # - name: Include the files needed to destroy the infrastructure
-    #   ansible.builtin.include_vars:
-    #     file: files/tffiles.yml
-
-    # - name: Get my terraform.tfstate file
-    #   loop: "{{ files }}"
-    #   amazon.aws.s3_object:
-    #     region: "{{ aws_region }}"
-    #     bucket: "{{ my_s3_bucket_name }}"
-    #     object: "{{ item['object'] }}"
-    #     dest: "{{ playbook_dir }}{{ item['object'] }}"
-    #     mode: get
+    - name: Get my state file from s3
+      amazon.aws.s3_object:
+        bucket: "{{ my_s3_bucket_name }}"
+        object: /development/terraform.tfstate
+        dest: "{{ playbook_dir }}terraform.tfstate"
+        mode: get
 
     - name: Destroy hosts in AWS
       register: tf_hosts_result
@@ -263,12 +232,12 @@
       ansible.builtin.debug:
         var: tf_hosts_result
 
-    - name: Remove my S3 bucket for out main.tf
-      amazon.aws.s3_bucket:
-        region: "{{ aws_region }}"
-        name: "{{ my_s3_bucket_name }}"
-        force: true
-        state: absent
+    # - name: Remove my S3 bucket for out main.tf
+    #   amazon.aws.s3_bucket:
+    #     region: "{{ aws_region }}"
+    #     name: "{{ my_s3_bucket_name }}"
+    #     force: true
+    #     state: absent
 
     - name: Force inventory refresh
       ansible.builtin.meta: refresh_inventory
