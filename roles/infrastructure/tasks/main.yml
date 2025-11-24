@@ -252,7 +252,7 @@
     - name: Destroy hosts in AWS
       register: tf_hosts_result
       community.general.terraform:
-        project_path: "{{ playbook_dir }}"
+        project_path: "{{ playbook_dir }}/.terraform"
         force_init: true
         state: absent
         # plugin_paths:
