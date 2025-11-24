@@ -7,8 +7,8 @@ controller_templates:
     execution_environment: hashicorp_ee
     project: aap.dailydemo.hashicorp
     playbook: playbooks/main.yml
-    # ask_tags_on_launch: true
-    # job_tags: create,remove
+    ask_tags_on_launch: true
+    job_tags: create,remove
     credentials:
       - "{{ my_aws_credential }}"
       - "{{ my_aap_credential }}"
