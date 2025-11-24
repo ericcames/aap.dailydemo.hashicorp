@@ -247,12 +247,12 @@
     - name: Extract providers
       ansible.builtin.unarchive:
         src: "{{ playbook_dir }}/terraform.zip"
-        dest: "{{ playbook_dir }}/.terraform"
+        dest: "{{ playbook_dir }}/"
 
     - name: Destroy hosts in AWS
       register: tf_hosts_result
       community.general.terraform:
-        project_path: "{{ playbook_dir }}/"
+        project_path: "{{ playbook_dir }}/.terraform"
         force_init: true
         state: absent
         # plugin_paths:
