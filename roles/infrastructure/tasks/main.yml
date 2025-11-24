@@ -109,13 +109,6 @@
     #     dest: "{{ playbook_dir }}/main.tf"
     #     mode: get
 
-    - name: Deploy hosts to AWS
-      register: tf_hosts_result
-      community.general.terraform:
-        project_path: "{{ playbook_dir }}"
-        force_init: true
-        state: present
-
     - name: Include the files needed to destroy the infrastructure
       ansible.builtin.include_vars:
         file: files/tf_files.yml
@@ -127,6 +120,13 @@
         dest: "{{ playbook_dir }}/{{ item['name'] }}"
         force: true
         mode: '0644'
+
+    - name: Deploy hosts to AWS
+      register: tf_hosts_result
+      community.general.terraform:
+        project_path: "{{ playbook_dir }}"
+        force_init: true
+        state: present
 
     # - name: Capture the terraform.tfstate file so that we can burn things down
     #   loop: "{{ files }}"
