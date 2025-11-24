@@ -256,7 +256,7 @@
         force_init: true
         state: absent
         plugin_paths:
-          - "{{ playbook_dir }}/.terraform/providers"
+          - "{{ playbook_dir }}/.terraform/providers/registry.terraform.io/hashicorp/aws/"
 
     - name: Debug terraform apply
       when: debug | default(false)
