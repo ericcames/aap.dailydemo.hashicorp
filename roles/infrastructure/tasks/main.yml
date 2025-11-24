@@ -226,12 +226,22 @@
           ansible.builtin.debug:
             msg: "Using zone named {{ domain_name }} with zone ID {{ r53_zone_id }}."
 
-    - name: Get my state file from s3
+    - name: Include the files needed to destroy the infrastructure
+      ansible.builtin.include_vars:
+        file: files/s3_files.yml
+
+    - name: Get my files from my s3 bucket
+      loop: "{{ s3_files }}"
       amazon.aws.s3_object:
         bucket: "{{ my_s3_bucket_name }}"
-        object: /development/terraform.tfstate
-        dest: "{{ playbook_dir }}/terraform.tfstate"
+        object: "{{ item['object'] }}"
+        dest: "{{ playbook_dir }}/{{ item['name'] }}"
         mode: get
+
+    - name: Extract providers
+      ansible.builtin.unarchive:
+        src: "{{ playbook_dir }}/providers.zip"
+        dest: "{{ playbook_dir }}/.terraform/providers"
 
     - name: Destroy hosts in AWS
       register: tf_hosts_result
