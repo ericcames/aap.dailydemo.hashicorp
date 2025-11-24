@@ -1,7 +1,7 @@
-vpc
+infrastructure
 =========
 ```
-This role will create or delete a Amazon Virtual Private Cloud (VPC).
+This role will create or delete infrasturce at aws using community.general.terraform
 ```
 Requirements
 ------------
@@ -12,18 +12,19 @@ Amazon Web Services Credential in Ansible Automation Platform
 Role Variables
 --------------
 ```
-vpc_name: f5-dailydemo
-vpc_cidr: 172.16.10.0/24
-vpc_region: us-west-1
-vpc_user_name: eric.ames
-vpc_alwaysup: false
-vpc_deleteby: hercules
-vpc_ec2_ansible_group: "{{ vpc_user_name }}"
-vpc_ec2_security_group_name: "{{ vpc_name }}_SECGRP"
-vpc_ec2_vpc_subnet_name: "{{ vpc_name }}_Subnet"
-vpc_ec2_rt_name: "{{ vpc_name }}_RT_Internet"
-vpc_ec2_igw_name: "{{ vpc_name }}_IGW"
-vpc_my_email_address: "{{ vpc_user_name }}@redhat.com"
+ssh_key_name: my_public_ssh_key
+email_address: eames@redhat.com # the email address used to send emails from the demo
+# AWS information
+# this section is only used by deploy-hosts.yml for AWS deployment. Other deployments don't need it.
+aws_profile: default                        # aws profile name from ~/.aws/credentials
+aws_ami: ami-0a5229853eaaa29c1              # Red Hat Enterprise Linux version 10 (HVM), EBS General Purpose (SSD) Volume Type
+aws_type: m7i.xlarge                        # 4 vCPUs, 16 GiB RAM 4g EPYC
+aws_domain: "{{ domain_name }}"
+aws_region: us-west-1
+my_s3_bucket_name: hashicorp-daily-demo-451
+tf_config_files:
+  - main.tf
+  - backend.tf
 ansible_python_interpreter: /usr/bin/python3
 ```
 Dependencies
@@ -35,32 +36,23 @@ Example Playbook
 ----------------
 ```
 ---
-- name: Create our F5 daily demo
+- name: Provision terraform and vault
   hosts: localhost
   connection: local
 
   tasks:
 
-    - name: Include the vpc role
+    - name: Include the infrastructure role
       tags:
-        - createvpc
+        - create
       ansible.builtin.include_role:
-        name: vpc
+        name: infrastructure
 
-or
-
----
-- name: Remove our F5 daily demo
-  hosts: localhost
-  connection: local
-
-  tasks:
-
-    - name: Include the vpc role
+    - name: Include the infrastructure role
       tags:
-        - removevpc
+        - remove
       ansible.builtin.include_role:
-        name: vpc
+        name: infrastructure
 
 ```
 License
