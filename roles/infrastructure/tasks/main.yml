@@ -75,11 +75,11 @@
           ansible.builtin.debug:
             msg: "Using zone named {{ domain_name }} with zone ID {{ r53_zone_id }}."
 
-    - name: Create an S3 bucket for out main.tf
-      amazon.aws.s3_bucket:
-        region: "{{ aws_region }}"
-        name: "{{ my_s3_bucket_name }}"
-        state: present
+    # - name: Create an S3 bucket for out main.tf
+    #   amazon.aws.s3_bucket:
+    #     region: "{{ aws_region }}"
+    #     name: "{{ my_s3_bucket_name }}"
+    #     state: present
 
     # - name: Template main.tf.j2 to main.tf in my s3 bucket
     #   amazon.aws.s3_object:
