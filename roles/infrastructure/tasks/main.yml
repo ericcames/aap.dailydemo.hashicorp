@@ -238,6 +238,12 @@
         dest: "{{ playbook_dir }}/{{ item['name'] }}"
         mode: get
 
+    - name: Create a directory if it does not exist
+      ansible.builtin.file:
+        path: "{{ playbook_dir }}/.terraform/providers"
+        state: directory
+        mode: '0700'
+
     - name: Extract providers
       ansible.builtin.unarchive:
         src: "{{ playbook_dir }}/providers.zip"
