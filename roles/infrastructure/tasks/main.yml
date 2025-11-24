@@ -118,10 +118,10 @@
 
     - name: Include the files needed to destroy the infrastructure
       ansible.builtin.include_vars:
-        file: files/stuff-to-save.yml
+        file: files/tffiles.yml
 
     - name: Capture the terraform.tfstate file so that we can burn things down
-      loop: "{{ stuff-to-save }}"
+      loop: "{{ files }}"
       amazon.aws.s3_object:
         region: "{{ aws_region }}"
         bucket: "{{ my_s3_bucket_name }}"
@@ -232,10 +232,10 @@
 
     - name: Include the files needed to destroy the infrastructure
       ansible.builtin.include_vars:
-        file: files/stuff-to-save.yml
+        file: files/tffiles.yml
 
     - name: Get my terraform.tfstate file
-      loop: "{{ stuff-to-save }}"
+      loop: "{{ files }}"
       amazon.aws.s3_object:
         region: "{{ aws_region }}"
         bucket: "{{ my_s3_bucket_name }}"
