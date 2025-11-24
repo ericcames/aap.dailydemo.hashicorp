@@ -117,6 +117,19 @@
       ansible.builtin.debug:
         var: tf_hosts_result
 
+    - name: Create a zip archive of a directory
+      community.general.archive:
+        path: /.terraform/providers/  # The directory you want to zip
+        dest: "{{ playbook_dir }}/providers.zip" # The destination path and filename for the zip file
+        format: zip
+
+    - name: PUT my archived /.terraform/providers/ into s3
+      amazon.aws.s3_object:
+        bucket: "{{ my_s3_bucket_name }}"
+        object: /development/providers.zip
+        src: "{{ playbook_dir }}/providers.zip"
+        mode: put
+
     - name: Debug host names
       when: debug | default(false)
       ansible.builtin.debug:
