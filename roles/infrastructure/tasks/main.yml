@@ -247,7 +247,7 @@
     - name: Extract providers
       ansible.builtin.unarchive:
         src: "{{ playbook_dir }}/providers.zip"
-        dest: "{{ playbook_dir }}/.terraform/providers"
+        dest: "{{ playbook_dir }}/.terraform"
 
     - name: Destroy hosts in AWS
       register: tf_hosts_result
