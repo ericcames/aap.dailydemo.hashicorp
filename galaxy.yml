@@ -18,8 +18,8 @@ name: hashicorp_daily_demo
 description: A showcase to Configuration as Code. This repo is designed to have a repeatable build process for Terraform Entprise and Vault. We are leveraging the work that the Red Hat Product Demos team is doing.
 namespace: ericcames
 readme: README.md
-repository: https://github.com/ericcames/hashicorp
-issues: https://github.com/ericcames/hashicorp/issues
+repository: https://github.com/ericcames/aap.dailydemo.hashicorp
+issues: https://github.com/ericcames/aap.dailydemo.hashicorp/issues
 tags:
   - lab
   - cloud
@@ -32,4 +32,4 @@ tags:
   - sales
   - terraform
   - vault
-version: 1.0.0
+version: 1.0.1

@@ -11,7 +11,6 @@ Admin Account on your Ansible Controller
 Role Variables
 --------------
 ```
-inventory_vm_name: F5 Daily Demo
 # Use a Red Hat Ansible Automation Platform credential type
 # CONTROLLER_HOST: example.com
 # CONTROLLER_USERNAME: mickey.mouse
@@ -28,7 +27,7 @@ Example Playbook
 ----------------
 ```
 ---
-- name: Add a VM to your inventory
+- name: Update inventory
   hosts: localhost
   connection: local
 
@@ -36,14 +35,14 @@ Example Playbook
 
     - name: Include the inventory role
       tags:
-        - inventoryadd
+        - create
       ansible.builtin.include_role:
         name: inventory
 
 or
 
 ---
-- name: Remove a vm from our inventory
+- name: Remove a vms from our inventory
   hosts: localhost
   connection: local
 
@@ -51,7 +50,7 @@ or
 
     - name: Include the vm role
       tags:
-        - inventorydel
+        - remove
       ansible.builtin.include_role:
         name: inventory
 ```
