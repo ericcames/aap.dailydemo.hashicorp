@@ -40,3 +40,4 @@ remove
 ![alt text](https://github.com/ericcames/aap.dailydemo.hashicorp/blob/main/images/53.png "Route 53")<br>
 ![alt text](https://github.com/ericcames/aap.dailydemo.hashicorp/blob/main/images/ec2.png "ec2 nodes")<br>
 ![alt text](https://github.com/ericcames/aap.dailydemo.hashicorp/blob/main/images/eip.png "Elastic IPs")<br>
+![alt text](https://github.com/ericcames/aap.dailydemo.hashicorp/blob/main/images/inventory.png "Inventory")<br>
