@@ -126,14 +126,12 @@
         var: tf_hosts_result
 
     - name: Create a zip archive of a directory
-      when: not tf_hosts_result.skipped
       community.general.archive:
         path: "{{ playbook_dir }}/.terraform" # The directory you want to zip
         dest: "{{ playbook_dir }}/terraform.zip" # The destination path and filename for the zip file
         format: zip
 
     - name: PUT my archived /.terraform/providers/ into s3
-      when: not tf_hosts_result.skipped
       amazon.aws.s3_object:
         bucket: "{{ my_s3_bucket_name }}"
         object: development/terraform.zip
@@ -166,7 +164,6 @@
           - 'vault_host: {{ vault_host }}'
 
     - name: Template inventory.j2 to playbook_dir/inventory
-      when: not tf_hosts_result.skipped
       ansible.builtin.template:
         src: templates/inventory.j2
         dest: '{{ playbook_dir }}/inventory'
@@ -174,7 +171,6 @@
         mode: '0644'
 
     - name: Force inventory refresh
-      when: not tf_hosts_result.skipped
       ansible.builtin.meta: refresh_inventory
 
 - name: Destroy our infrastructure
