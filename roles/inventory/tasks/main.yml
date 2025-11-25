@@ -44,18 +44,7 @@
         controller_host: "{{ lookup('ansible.builtin.env', 'CONTROLLER_HOST') }}"
         controller_oauthtoken: "{{ ansible_facts['aap_token']['token'] }}"
         validate_certs: false
-        name: "{{ item['Name'] }}"
-        inventory: "{{ inventory_managed_inventory_name }}"
-        state: present
-        enabled: true
-
-    - name: Update the AAP Managed Inventory localhost variable
-      loop: "{{ instance_info['instances'] }}"
-      ansible.controller.host:
-        controller_host: "{{ lookup('ansible.builtin.env', 'CONTROLLER_HOST') }}"
-        controller_oauthtoken: "{{ ansible_facts['aap_token']['token'] }}"
-        validate_certs: false
-        name: localhost
+        name: "{{ item['Tags']['Name'] }}"
         inventory: "{{ inventory_managed_inventory_name }}"
         state: present
         enabled: true
@@ -69,13 +58,13 @@
         name: hashi
         description: Automation Controller Group
         inventory: "{{ inventory_managed_inventory_name }}"
-        hosts: "{{ item['Name'] }}"
+        hosts: "{{ item['Tags']['Name'] }}"
         preserve_existing_hosts: true
 
     - name: Update runtime inventory
       loop: "{{ instance_info['instances'] }}"
       ansible.builtin.add_host:
-        name: "{{ item['Name'] }}"
+        name: "{{ item['Tags']['Name'] }}"
         groups:
           - hashi
 
@@ -102,16 +91,6 @@
         name: "{{ item }}"
         inventory: "{{ inventory_managed_inventory_name }}"
         state: absent
-
-    - name: Update the AAP Managed Inventory localhost variable
-      ansible.controller.host:
-        controller_host: "{{ lookup('ansible.builtin.env', 'CONTROLLER_HOST') }}"
-        controller_oauthtoken: "{{ ansible_facts['aap_token']['token'] }}"
-        validate_certs: false
-        name: localhost
-        inventory: "{{ inventory_managed_inventory_name }}"
-        state: present
-        enabled: true
 
     - name: Remove my token
       ansible.platform.token:
