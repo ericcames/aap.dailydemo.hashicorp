@@ -69,13 +69,13 @@
         name: hashi
         description: Automation Controller Group
         inventory: "{{ inventory_managed_inventory_name }}"
-        hosts: "{{ item['name'] }}"
+        hosts: "{{ item['Name'] }}"
         preserve_existing_hosts: true
 
     - name: Update runtime inventory
       loop: "{{ instance_info['instances'] }}"
       ansible.builtin.add_host:
-        name: "{{ item['name'] }}"
+        name: "{{ item['Name'] }}"
         groups:
           - hashi
 
