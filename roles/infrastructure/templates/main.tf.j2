@@ -126,7 +126,6 @@ resource "aws_instance" "web" {
     Name = "${local.instance_names[count.index]}.{{ domain_name }}"
     Type = local.instance_names[count.index]
     Domain = "{{ domain_name }}"
-    Demo = hashicorp
   }
 }
 
