@@ -1,6 +1,6 @@
 Ansible Automation Platform Daily Demo for HashiCorp Terraform and Vault
 =========
-A demo designed to build the PaloAlto Infrastructure needed to showcase many of the use cases related to Terraform and Vault.  This builds two systems at AWS, one of the systems will become Terraform Enterprise and the other system will become Vault.  The infrastructure as code used in Day 0 setup uses community.general.terraform.
+A demo designed to build the Infrastructure needed to showcase many of the use cases related to Terraform and Vault.  This builds two systems at AWS, one of the systems will become Terraform Enterprise and the other system will become Vault.  The infrastructure as code used in Day 1 setup uses community.general.terraform.
 
 Notes
 =========
