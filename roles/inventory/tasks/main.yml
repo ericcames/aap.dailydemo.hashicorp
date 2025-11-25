@@ -44,7 +44,7 @@
         controller_host: "{{ lookup('ansible.builtin.env', 'CONTROLLER_HOST') }}"
         controller_oauthtoken: "{{ ansible_facts['aap_token']['token'] }}"
         validate_certs: false
-        name: "{{ item['name'] }}"
+        name: "{{ item['Name'] }}"
         inventory: "{{ inventory_managed_inventory_name }}"
         state: present
         enabled: true
