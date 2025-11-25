@@ -20,7 +20,7 @@
       amazon.aws.ec2_instance_info:
         region: "{{ inventory_region }}"
         filters:
-          tag:Name: "{{ inventory_vm_name }}"
+          tag:Type: ["terraform", "vault"]
           instance-state-name: [running]
 
     - name: Create a new token
@@ -44,12 +44,10 @@
         controller_host: "{{ lookup('ansible.builtin.env', 'CONTROLLER_HOST') }}"
         controller_oauthtoken: "{{ ansible_facts['aap_token']['token'] }}"
         validate_certs: false
-        name: "{{ item['public_dns_name'] }}"
+        name: "{{ item['name'] }}"
         inventory: "{{ inventory_managed_inventory_name }}"
         state: present
         enabled: true
-        variables:
-          ip_address: "{{ ec2_vms.instances[0].public_ip_address }}"
 
     - name: Update the AAP Managed Inventory localhost variable
       loop: "{{ instance_info['instances'] }}"
@@ -61,10 +59,6 @@
         inventory: "{{ inventory_managed_inventory_name }}"
         state: present
         enabled: true
-        variables:
-          ansible_host: '127.0.0.1'
-          ansible_connection: 'local'
-          ip_address: "{{ ec2_vms.instances[0].public_ip_address }}"
 
     - name: Create a group
       loop: "{{ instance_info['instances'] }}"
@@ -75,13 +69,13 @@
         name: hashi
         description: Automation Controller Group
         inventory: "{{ inventory_managed_inventory_name }}"
-        hosts: "{{ item['public_dns_name'] }}"
+        hosts: "{{ item['name'] }}"
         preserve_existing_hosts: true
 
     - name: Update runtime inventory
       loop: "{{ instance_info['instances'] }}"
       ansible.builtin.add_host:
-        name: "{{ item['public_dns_name'] }}"
+        name: "{{ item['name'] }}"
         groups:
           - hashi
 
@@ -118,9 +112,6 @@
         inventory: "{{ inventory_managed_inventory_name }}"
         state: present
         enabled: true
-        variables:
-          ansible_host: '127.0.0.1'
-          ansible_connection: 'local'
 
     - name: Remove my token
       ansible.platform.token:

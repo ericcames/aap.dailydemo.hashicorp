@@ -1,5 +1,4 @@
 ---
-inventory_vm_name: Panos Daily Demo
 # Use a Red Hat Ansible Automation Platform credential type
 # CONTROLLER_HOST: example.com
 # CONTROLLER_USERNAME: mickey.mouse
