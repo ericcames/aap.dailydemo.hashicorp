@@ -35,3 +35,8 @@ create
   or
 remove
 ```
+![alt text](https://github.com/ericcames/aap.dailydemo.hashicorp/blob/main/images/vpc.png "VPC")<br>
+![alt text](https://github.com/ericcames/aap.dailydemo.hashicorp/blob/main/images/s3.png "VPC")<br>
+![alt text](https://github.com/ericcames/aap.dailydemo.hashicorp/blob/main/images/53.png "VPC")<br>
+![alt text](https://github.com/ericcames/aap.dailydemo.hashicorp/blob/main/images/ec2.png "VPC")<br>
+![alt text](https://github.com/ericcames/aap.dailydemo.hashicorp/blob/main/images/eip.png "VPC")<br>
