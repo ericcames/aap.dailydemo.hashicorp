@@ -44,7 +44,7 @@
         controller_host: "{{ lookup('ansible.builtin.env', 'CONTROLLER_HOST') }}"
         controller_oauthtoken: "{{ ansible_facts['aap_token']['token'] }}"
         validate_certs: false
-        name: "{{ item['Tags']['Name'] }}"
+        name: "{{ item['tags']['Name'] }}"
         inventory: "{{ inventory_managed_inventory_name }}"
         state: present
         enabled: true
@@ -58,13 +58,13 @@
         name: hashi
         description: Automation Controller Group
         inventory: "{{ inventory_managed_inventory_name }}"
-        hosts: "{{ item['Tags']['Name'] }}"
+        hosts: "{{ item['tags']['Name'] }}"
         preserve_existing_hosts: true
 
     - name: Update runtime inventory
       loop: "{{ instance_info['instances'] }}"
       ansible.builtin.add_host:
-        name: "{{ item['Tags']['Name'] }}"
+        name: "{{ item['tags']['Name'] }}"
         groups:
           - hashi
 
