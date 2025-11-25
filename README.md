@@ -36,7 +36,7 @@ create
 remove
 ```
 ![alt text](https://github.com/ericcames/aap.dailydemo.hashicorp/blob/main/images/vpc.png "VPC")<br>
-![alt text](https://github.com/ericcames/aap.dailydemo.hashicorp/blob/main/images/s3.png "VPC")<br>
-![alt text](https://github.com/ericcames/aap.dailydemo.hashicorp/blob/main/images/53.png "VPC")<br>
-![alt text](https://github.com/ericcames/aap.dailydemo.hashicorp/blob/main/images/ec2.png "VPC")<br>
-![alt text](https://github.com/ericcames/aap.dailydemo.hashicorp/blob/main/images/eip.png "VPC")<br>
+![alt text](https://github.com/ericcames/aap.dailydemo.hashicorp/blob/main/images/s3.png "s3 bucket")<br>
+![alt text](https://github.com/ericcames/aap.dailydemo.hashicorp/blob/main/images/53.png "Route 53")<br>
+![alt text](https://github.com/ericcames/aap.dailydemo.hashicorp/blob/main/images/ec2.png "ec2 nodes")<br>
+![alt text](https://github.com/ericcames/aap.dailydemo.hashicorp/blob/main/images/eip.png "Elastic IPs")<br>
